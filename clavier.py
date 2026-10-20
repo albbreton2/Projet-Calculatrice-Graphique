@@ -11,17 +11,33 @@ import matplotlib.pyplot as plt
 
     #def create_widgets(self):
 
-def yButtonClick():
-    print("y")
+#quand on clique sur la touche, ça print la touche (changera le label/entry éventuellement)
+def buttonClick(symbole):
+    print(symbole)
 
-app = ctk.CTk()
-app.geometry('1280x800')
-app.grid_columnconfigure(0,weight=1)
+#temporaire
+clavier = ctk.CTk()
+clavier.geometry('1280x300')
+clavier.grid_columnconfigure(0,weight=1)
 
-framee = ctk.CTkFrame(app, height=50, width=300)
-framee.grid(row=0, column=0)
-xButton = ctk.CTkButton(framee, text="x", command=yButtonClick height=20, width=80)
-xButton.grid(row=0, column=0)
-yButton = ctk.CTkButton(framee, text="y", height=20, width=80)
-yButton.grid(row=0, column=1)
-app.mainloop()
+#Frame temporaire
+clavierFrame = ctk.CTkFrame(clavier, height=300, width=400)
+clavierFrame.grid(row=0, column=0, pady=(30,20))
+
+#bouton x
+xButton = ctk.CTkButton(clavierFrame, text="x", command=lambda: buttonClick("x"), height=20, width=80)
+xButton.grid(row=0, column=0, pady=(5,5), padx=(5,5))
+
+#bouton y
+yButton = ctk.CTkButton(clavierFrame, text="y", command=lambda: buttonClick("y"), height=20, width=80)
+yButton.grid(row=0, column=1, pady=(5,5), padx=(5,5))
+
+#bouton pi
+piButton = ctk.CTkButton(clavierFrame, text="π", command=lambda: buttonClick("π"), height=20, width=80)
+piButton.grid(row=0, column=2, pady=(5,5), padx=(5,5))
+
+#bouton e
+eButton = ctk.CTkButton(clavierFrame, text="e", command=lambda: buttonClick("e"), height=20, width=80)
+eButton.grid(row=0, column=3, pady=(5,5), padx=(5,5))
+
+clavier.mainloop()
