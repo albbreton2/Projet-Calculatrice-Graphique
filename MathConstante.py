@@ -2,11 +2,25 @@ import numpy as np
 
 #pour les constantes du genre infini, pi, e, etc
 # ex: pi = MathConstante("pi")
-#input de print(pi) -> pi (faudra ajouter les symboles fancy comme π éventuellement)
+#input de print(pi) -> π
+#ce que pi.operation fait -> np.pi()
 #input de pi.operation() -> 3.141592653589793
 class MathConstante:
     def __init__(self, nom):
         self.nom = nom
+        self.symboles = {
+            "pi" : "π", 
+            "inf" : "∞", 
+            "sqrt" : "√", 
+            "cbrt" : "∛", 
+            "floor" : "⌈ ⌉", 
+            "ceil" : "⌊ ⌋", 
+            "exp" : "eˣ",
+            "log" : "ln",
+            "log10" : "log₁₀",
+            "log2" : "log₂"
+            }
+
     def __str__(self):
         return self.nom
     def operation(self):
