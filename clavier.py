@@ -20,7 +20,7 @@ app.grid_columnconfigure(0,weight=1)
 
 framee = ctk.CTkFrame(app, height=50, width=300)
 framee.grid(row=0, column=0)
-xButton = ctk.CTkButton(framee, text="x", command=yButtonClick height=20, width=80)
+xButton = ctk.CTkButton(framee, text="x", command=yButtonClick, height=20, width=80)
 xButton.grid(row=0, column=0)
 yButton = ctk.CTkButton(framee, text="y", height=20, width=80)
 yButton.grid(row=0, column=1)
