@@ -18,11 +18,15 @@ class MathConstante:
             "exp" : "eˣ",
             "log" : "ln",
             "log10" : "log₁₀",
-            "log2" : "log₂"
+            "log2" : "log₂",
+            "absolute" : "| |"
             }
 
     def __str__(self):
-        return self.nom
+        if self.nom in self.symboles:
+            return self.symboles[self.nom]
+        else:
+            return self.nom
     def operation(self):
         result = getattr(np, self.nom)
         return result
