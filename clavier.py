@@ -120,9 +120,18 @@ def buttonClick(symbole):
     ################################
     ##Pour cliquer sur une touche:##
     ################################
-    #current = entry.get()
-    #entry.delete(0, tk.END)
-    #entry.insert(0, str(current) + str(symbole))
+    '''
+    current = str(entry.get()) #prend ce qu'il y a déjà dans l'entry
+    pos = entry.index(INSERT) #prend la position courante du curseur
+    entry.delete(0, tk.END) #supprime l'entièreté des caractères de l'entry
+    entryText = ""
+    for i in range (len(current)): #pour toutes les lettres de current,
+        if i == pos: #si la position de la lettre est la position du symbole à ajouter
+            entryText += str(symbole) #ajoute le symbole à la chaine de caractères
+        else: #sinon
+            entryText += current[i] #ajoute le reste de la chaine de caractères
+    entry.insert(0, entryText)
+    '''
 
 #supprime le dernier caractère entré
 def backspaceButton():
@@ -130,14 +139,22 @@ def backspaceButton():
     ########################################
     ##Pour supprimer le dernier caractère:##
     ########################################
-    #current = str(entry.get())
-    #entry.delete(0, tk.END)
+    '''
+    current = str(entry.get()) #prend ce qu'il y a déjà dans l'entry
+    pos = entry.index(INSERT) #prend la position courante du curseur
+    entry.delete(0, tk.END) #supprime l'entièreté des caractères de l'entry
+    entryText = ""
+    for i in range (len(current)): #pour toutes les lettres de current,
+        if i != pos: #si la position de la lettre n'est la position de la lettre à effacer
+            entryText += current[i] #ajouter la lettre à la chaine de caractères
+    entry.insert(0, entryText) #insère le texte dans l'entry
     #entry.insert(0, current[:len(current)-1])
+    '''
 
 #met en majuscules ou en minuscules
 def capitalizeLetters(lettersBtn):
     for i in lettersBtn:
-        if i.cget("text")!=" ↑ " and i.cget("text")!="⌫": #si ce n'est pas une touche qui n'est pas une lettre
+        if i.cget("text").isalpha(): #si c'est une lettre
             if i.cget("text").isupper(): #si l'attribut text du bouton est en majuscules
                 lowerLetter = i.cget("text").lower() #mettre en minuscule
                 i.configure(text = lowerLetter, command=lambda lettre=lowerLetter: buttonClick(lettre))
