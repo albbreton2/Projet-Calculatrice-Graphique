@@ -19,7 +19,9 @@ class MathConstante:
             "log" : "ln",
             "log10" : "log₁₀",
             "log2" : "log₂",
-            "absolute" : "| |"
+            "absolute" : "| |",
+            "**" : "ˣ",
+            "**2" : "a²"
             }
 
     def __str__(self):

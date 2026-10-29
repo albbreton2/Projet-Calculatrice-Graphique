@@ -17,87 +17,53 @@ class Clavier(ctk.CTkFrame):
         ##################################################################################################################
         ## La section ici est la première section du clavier, commentée pour l'instant car il y aura plusieurs claviers ##
         ##################################################################################################################
-        '''
-        #bouton x
-        xButton = ctk.CTkButton(self, text="x", command=lambda: buttonClick("x"), height=20, width=80)
-        xButton.grid(row=0, column=0, pady=(5,5), padx=(5,5))
+        listeOperateurs = ['x', 'y', MathConstante("pi"), MathConstante("e"),
+                           '²', MathFonction("**"), MathFonction("sqrt"), MathFonction("absolute"),
+                           '(', ')', '<', '>',
+                           MathFonction("cbrt"), ',' ,'≤' ,'≥']
+        listeBoutons1 = []
 
-        #bouton y
-        yButton = ctk.CTkButton(self, text="y", command=lambda: buttonClick("y"), height=20, width=80)
-        yButton.grid(row=0, column=1, pady=(5,5), padx=(5,5))
+        for symbole in listeOperateurs:
+            if type(symbole) == '__main__.MathFonction' or type(symbole) == '__main__.MathConstante':
+                listeBoutons1.append(ctk.CTkButton(self, text=symbole.__str__(), command=lambda btn=symbole: buttonClick(btn), height=20, width=80))
+            else:
+                listeBoutons1.append(ctk.CTkButton(self, text=symbole, command=lambda btn=symbole: buttonClick(btn), height=20, width=80))
 
-        #bouton pi
-        pi = MathConstante("pi")
-        piButton = ctk.CTkButton(self, text=pi.__str__(), command=lambda: buttonClick(pi), height=20, width=80)
-        piButton.grid(row=0, column=2, pady=(5,5), padx=(5,5))
+        count, padx3 = 0, 5
+        for i in range(4):
+            for j in range(0,4):
+                if j == 4:
+                    padx3 = 15
+                else:
+                    padx3 = 5
+                if count<len(listeOperateurs):
+                    listeBoutons1[count].grid(row=i, column=j, pady=(5,5), padx=(padx3,5))
+                    count += 1
+        
+        chiffres = [7,8,9,'÷',4,5,6,'×',1,2,3,'-',0,'.','=','+']
+        chiffresBoutons = []
 
-        #bouton e
-        e = MathConstante("e")
-        eButton = ctk.CTkButton(self, text="e", command=lambda: buttonClick(e), height=20, width=80)
-        eButton.grid(row=0, column=3, pady=(5,5), padx=(5,10))
+        for chiffre in chiffres:
+            chiffresBoutons.append(ctk.CTkButton(self, text=str(chiffre), command=lambda btn=chiffre: buttonClick(btn), height=20, width=80))
 
-        #bouton a²
-        squareButton = ctk.CTkButton(self, text="a²", command=lambda: buttonClick("²"), height=20, width=80)
-        squareButton.grid(row=1, column=0, pady=(5,5), padx=(5,5))
-
-        #bouton exposant
-        exposantButton = ctk.CTkButton(self, text="a^x", command=lambda: buttonClick("^x"), height=20, width=80)
-        exposantButton.grid(row=1, column=1, pady=(5,5), padx=(5,5))
-
-        #bouton sqrt
-        sqrt = MathFonction("sqrt")
-        sqrtButton = ctk.CTkButton(self, text=sqrt.__str__(), command=lambda: buttonClick(sqrt), height=20, width=80)
-        sqrtButton.grid(row=1, column=2, pady=(5,5), padx=(5,5))
-
-        #bouton valeur absolue
-        absolute = MathFonction("absolute")
-        absoluteButton = ctk.CTkButton(self, text=absolute.__str__(), command=lambda: buttonClick(absolute), height=20, width=80)
-        absoluteButton.grid(row=1, column=3, pady=(5,5), padx=(5,10))
-
-        ppButton = ctk.CTkButton(self, text="<", command=lambda: buttonClick("<"), height=20, width=80)
-        ppButton.grid(row=2, column=0, pady=(5,5), padx=(5,5))
-
-        pgButton = ctk.CTkButton(self, text=">", command=lambda: buttonClick(">"), height=20, width=80)
-        pgButton.grid(row=2, column=1, pady=(5,5), padx=(5,5))
-
-        sevenButton = ctk.CTkButton(self, text="7", command=lambda: buttonClick(7), height=20, width=80)
-        sevenButton.grid(row=0, column=4, pady=(5,5), padx=(10,5))
-
-        eightButton = ctk.CTkButton(self, text="8", command=lambda: buttonClick(8), height=20, width=80)
-        eightButton.grid(row=0, column=5, pady=(5,5), padx=(5,5))
-
-        nineButton = ctk.CTkButton(self, text="9", command=lambda: buttonClick(9), height=20, width=80)
-        nineButton.grid(row=0, column=6, pady=(5,5), padx=(5,5))
-
-        fourButton = ctk.CTkButton(self, text="4", command=lambda: buttonClick(4), height=20, width=80)
-        fourButton.grid(row=1, column=4, pady=(5,5), padx=(10,5))
-
-        fiveButton = ctk.CTkButton(self, text="5", command=lambda: buttonClick(5), height=20, width=80)
-        fiveButton.grid(row=1, column=5, pady=(5,5), padx=(5,5))
-
-        sixButton = ctk.CTkButton(self, text="6", command=lambda: buttonClick(6), height=20, width=80)
-        sixButton.grid(row=1, column=6, pady=(5,5), padx=(5,5))
-
-        oneButton = ctk.CTkButton(self, text="1", command=lambda: buttonClick(1), height=20, width=80)
-        oneButton.grid(row=2, column=4, pady=(5,5), padx=(10,5))
-
-        twoButton = ctk.CTkButton(self, text="2", command=lambda: buttonClick(2), height=20, width=80)
-        twoButton.grid(row=2, column=5, pady=(5,5), padx=(5,5))
-
-        threeButton = ctk.CTkButton(self, text="3", command=lambda: buttonClick(3), height=20, width=80)
-        threeButton.grid(row=2, column=6, pady=(5,5), padx=(5,5))
-
-        zeroButton = ctk.CTkButton(self, text="0", command=lambda: buttonClick(0), height=20, width=80)
-        zeroButton.grid(row=3, column=4, pady=(5,5), padx=(10,5))
-        '''
+        count, padx4 = 0, 5
+        for i in range(4):
+            for j in range(4,8):
+                if j == 4:
+                    padx4 = 15
+                else:
+                    padx4 = 5
+                if count<len(chiffres):
+                    chiffresBoutons[count].grid(row=i, column=j, pady=(5,5), padx=(padx4,5))
+                    count += 1
 
         ####################################
         ## section des lettres du clavier ##
         ####################################
-
+        '''
         letters= ['q','w','e','r','t','y','u','i','o','p',
                   'a','s','d','f','g','h','j','k','l',
-                  ' ↑ ','z','x','c','v','b','n','m'] #liste des lettres du clavier
+                  ' ▲ ','z','x','c','v','b','n','m'] #liste des lettres du clavier
         lettersButtons = [] #liste des boutons du clavier
 
         for letter in letters:
@@ -113,6 +79,7 @@ class Clavier(ctk.CTkFrame):
             lettersButtons[i].grid(row=row, column=col, pady=(5,5), padx=(5,5)) #
             col += 1
         lettersButtons[19].configure(command=lambda: capitalizeLetters(lettersButtons)) #Pour mettre en majuscule/minuscule
+        '''
 
 #quand on clique sur la touche, ça print la touche (changera le label/entry éventuellement)
 def buttonClick(symbole):
@@ -153,6 +120,9 @@ def backspaceButton():
 
 #met en majuscules ou en minuscules
 def capitalizeLetters(lettersBtn):
+    ###############################################
+    ##Pour mettre en majuscules ou en minuscules:##
+    ###############################################
     for i in lettersBtn:
         if i.cget("text").isalpha(): #si c'est une lettre
             if i.cget("text").isupper(): #si l'attribut text du bouton est en majuscules
