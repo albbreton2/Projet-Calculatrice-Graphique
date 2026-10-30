@@ -4,82 +4,49 @@ import numpy as np
 import matplotlib.pyplot as plt
 from MathConstante import MathConstante
 from MathConstante import MathFonction
+from clavierAccueil import ClavierAccueil
+from clavierLettres import ClavierLettres
 
 
 class Clavier(ctk.CTkFrame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
+        self.grid_columnconfigure(1, weight=1)
         self.create_widgets()
+        self.showClavierAccueil()
+
+    def showClavierAccueil(self):
+        self.clearClavierFrame()
+        self.clavierAccueil = ClavierAccueil(self)
+        self.clavierAccueil.grid(row=1, column=0, columnspan=20, sticky='s')
+
+    def showClavierLettres(self):
+        self.clearClavierFrame()
+        self.clavierLettres = ClavierLettres(self)
+        self.clavierLettres.grid(row=1, column=0, columnspan=30, sticky='s')
+    '''
+    def showClavierFonctions(self):
+        self.clearClavierFrame()
+        self.clavierFonctions = ClavierFonctions(self)
+    
+    def showClavierAutre(self):
+        self.clearClavierFrame()
+        self.clavierAutre = ClavierAutre(self)
+    '''
+    def clearClavierFrame(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+        self.create_widgets()
+        
+
 
     def create_widgets(self):
+        boutonAccueil = ctk.CTkButton(self, text="123", command = self.showClavierAccueil, height=20, width=40)
+        boutonAccueil.grid(row=0, column=0, pady=(5,5), padx=(5,5), sticky="w")
 
-        ##################################################################################################################
-        ## La section ici est la première section du clavier, commentée pour l'instant car il y aura plusieurs claviers ##
-        ##################################################################################################################
-        listeOperateurs = ['x', 'y', MathConstante("pi"), MathConstante("e"),
-                           '²', MathFonction("**"), MathFonction("sqrt"), MathFonction("absolute"),
-                           '(', ')', '<', '>',
-                           MathFonction("cbrt"), ',' ,'≤' ,'≥']
-        listeBoutons1 = []
-
-        for symbole in listeOperateurs:
-            if type(symbole) == '__main__.MathFonction' or type(symbole) == '__main__.MathConstante':
-                listeBoutons1.append(ctk.CTkButton(self, text=symbole.__str__(), command=lambda btn=symbole: buttonClick(btn), height=20, width=80))
-            else:
-                listeBoutons1.append(ctk.CTkButton(self, text=symbole, command=lambda btn=symbole: buttonClick(btn), height=20, width=80))
-
-        count, padx3 = 0, 5
-        for i in range(4):
-            for j in range(0,4):
-                if j == 4:
-                    padx3 = 15
-                else:
-                    padx3 = 5
-                if count<len(listeOperateurs):
-                    listeBoutons1[count].grid(row=i, column=j, pady=(5,5), padx=(padx3,5))
-                    count += 1
-        
-        chiffres = [7,8,9,'÷',4,5,6,'×',1,2,3,'-',0,'.','=','+']
-        chiffresBoutons = []
-
-        for chiffre in chiffres:
-            chiffresBoutons.append(ctk.CTkButton(self, text=str(chiffre), command=lambda btn=chiffre: buttonClick(btn), height=20, width=80))
-
-        count, padx4 = 0, 5
-        for i in range(4):
-            for j in range(4,8):
-                if j == 4:
-                    padx4 = 15
-                else:
-                    padx4 = 5
-                if count<len(chiffres):
-                    chiffresBoutons[count].grid(row=i, column=j, pady=(5,5), padx=(padx4,5))
-                    count += 1
-
-        ####################################
-        ## section des lettres du clavier ##
-        ####################################
-        '''
-        letters= ['q','w','e','r','t','y','u','i','o','p',
-                  'a','s','d','f','g','h','j','k','l',
-                  ' ▲ ','z','x','c','v','b','n','m'] #liste des lettres du clavier
-        lettersButtons = [] #liste des boutons du clavier
-
-        for letter in letters:
-            lettersButtons.append(ctk.CTkButton(self, text=letter, command=lambda btn=letter: buttonClick(btn), height=20, width=60))
-        lettersButtons.append(ctk.CTkButton(self, text='⌫', command=lambda: backspaceButton(), height=20, width=60))
-
-        col, row = 0, 0 #compteurs
-        for i in range(len(lettersButtons)):
-            if col == 10 and row == 0:  #pour que ce soit placé selon la bonne ligne et colonne
-                col, row = 0, 1
-            if col == 9 and row == 1:
-                col, row = 0, 2
-            lettersButtons[i].grid(row=row, column=col, pady=(5,5), padx=(5,5)) #
-            col += 1
-        lettersButtons[19].configure(command=lambda: capitalizeLetters(lettersButtons)) #Pour mettre en majuscule/minuscule
-        '''
+        boutonLettres = ctk.CTkButton(self, text="ABC", command = self.showClavierLettres, height=20, width=40)
+        boutonLettres.grid(row=0, column=1, pady=(5,5), padx=(5,5), sticky="w")
 
 #quand on clique sur la touche, ça print la touche (changera le label/entry éventuellement)
 def buttonClick(symbole):

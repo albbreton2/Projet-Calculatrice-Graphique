@@ -8,11 +8,12 @@ class MainApp(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.geometry('1280x800')
+        self.grid_columnconfigure(0, weight=1)
         self.afficheClavier()
 
     def afficheClavier(self):        
         clavier = Clavier(master=self)
-        clavier.grid(row=900, column=0, sticky="s")
+        clavier.grid(row=900, column=0, sticky="sew")
 
 if __name__ == "__main__":
     app = MainApp()
