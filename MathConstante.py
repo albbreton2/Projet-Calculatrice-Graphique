@@ -18,11 +18,19 @@ class MathConstante:
             "exp" : "eˣ",
             "log" : "ln",
             "log10" : "log₁₀",
-            "log2" : "log₂"
+            "log2" : "log₂",
+            "absolute" : "| |",
+            "**" : "ˣ",
+            "**2" : "a²",
+            "degrees" : "deg",
+            "radians" : "rad"
             }
 
     def __str__(self):
-        return self.nom
+        if self.nom in self.symboles:
+            return self.symboles[self.nom]
+        else:
+            return self.nom
     def operation(self):
         result = getattr(np, self.nom)
         return result
@@ -35,5 +43,11 @@ class MathFonction(MathConstante):
     def __init__(self, nom):
         MathConstante.__init__(self, nom)
     def operation(self, x):
-        result = getattr(np, self.nom)
-        return result(x)
+        sinusInverse = {'csc':'sin', 'sec':'cos', 'cot': 'tan',
+                        'arccsc':'arcsin', 'arcsec':'arccos', 'arccot':'arctan'}
+        if self.nom in sinusInverse.keys():
+            result = getattr(np, sinusInverse[self.nom])
+            return 1/result(x)
+        else:
+            result = getattr(np, self.nom)
+            return result(x)

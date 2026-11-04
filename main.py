@@ -1,54 +1,54 @@
 import customtkinter as ctk
 import tkinter as tk
 import numpy as np
-import matplotlib.pyplot as plt
 from accueil import Accueil
-
-#Création de la page graphique
-
+from calculatrice import Calculatrice
 
 
 class MainApp(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Calculatrice graphique")
-        self.geometry("1200x800")
-        self.show_accueil()
+        self.geometry("1280x800")
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
         self.axe1 = np.linspace(-10, 10, 100)
         self.axe2 = self.axe1 ** 2
 
-    
+        self.page = None
+        self.create_menu()
+        self.show_calculatrice()
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)   # idée de ta camarade
+
+    def _afficher(self, page):
+        if self.page is not None:
+            self.page.destroy()
+        self.page = page
+        self.page.grid(row=0, column=0, sticky="nsew")
 
     def show_accueil(self):
-        self.accueil = Accueil(master=self, axe1 = self.axe1, axe2 = self.axe2)
-    
+        self._afficher(Accueil(self, axe1=self.axe1, axe2=self.axe2))
+
+    def show_calculatrice(self):
+        self._afficher(Calculatrice(self))
+
     def create_menu(self):
         menu_bar = tk.Menu(self)
         self.config(menu=menu_bar)
-
         file_menu = tk.Menu(menu_bar, tearoff=0)
         menu_bar.add_cascade(label="Fichier", menu=file_menu)
-        file_menu.add_command(label="Ouvrir", command=self.open_file)
-        file_menu.add_command(label="Enregistrer", command=self.save_file)
-        file_menu.add_separator()
-        file_menu.add_command(label="Quitter", command=self.quit)
-        edit_menu = tk.Menu(menu_bar, tearoff=0)
-        menu_bar.add_cascade(label="Édition", menu=edit_menu)
-        edit_menu.add_command(label="Annuler", command=self.undo_action)
-        edit_menu.add_command(label="Rétablir", command=self.redo_action)
+        file_menu.add_command(label="Quitter", command=self.on_closing)
         view_menu = tk.Menu(menu_bar, tearoff=0)
         menu_bar.add_cascade(label="Affichage", menu=view_menu)
-        view_menu.add_command(label="Accueil", command=self.show_accueil)
-    
-    def open_file(self):
-        print("Ouvrir un fichier")
-    def save_file(self):
-        print("Enregistrer le fichier")
-    def undo_action(self):
-        print("Annuler")
-    def redo_action(self):
-        print("Rétablir")
+        view_menu.add_command(label="Calculatrice", command=self.show_calculatrice)
+        view_menu.add_command(label="Accueil (exercice)", command=self.show_accueil)
 
-    if __name__ == "__main__":
-            app = MainApp()
-            app.mainloop()
+    def on_closing(self):
+        self.quit()
+        self.destroy()
+
+
+if __name__ == "__main__":
+    app = MainApp()
+    app.mainloop()
