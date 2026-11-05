@@ -2,7 +2,7 @@ import customtkinter as ctk
 import tkinter as tk
 import numpy as np
 from accueil import Accueil
-from calculatrice import Calculatrice
+from visuel import Visuel
 
 
 class MainApp(ctk.CTk):
@@ -31,7 +31,7 @@ class MainApp(ctk.CTk):
         self._afficher(Accueil(self, axe1=self.axe1, axe2=self.axe2))
 
     def show_calculatrice(self):
-        self._afficher(Calculatrice(self))
+        self._afficher(Visuel(self))
 
     def create_menu(self):
         menu_bar = tk.Menu(self)

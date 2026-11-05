@@ -9,12 +9,12 @@ class MathConstante:
     def __init__(self, nom):
         self.nom = nom
         self.symboles = {
-            "pi" : "π", 
-            "inf" : "∞", 
-            "sqrt" : "√", 
-            "cbrt" : "∛", 
-            "floor" : "⌈ ⌉", 
-            "ceil" : "⌊ ⌋", 
+            "pi" : "π",
+            "inf" : "∞",
+            "sqrt" : "√",
+            "cbrt" : "∛",
+            "floor" : "⌊ ⌋",
+            "ceil" : "⌈ ⌉",
             "exp" : "eˣ",
             "log" : "ln",
             "log10" : "log₁₀",
@@ -43,11 +43,14 @@ class MathFonction(MathConstante):
     def __init__(self, nom):
         MathConstante.__init__(self, nom)
     def operation(self, x):
-        sinusInverse = {'csc':'sin', 'sec':'cos', 'cot': 'tan',
-                        'arccsc':'arcsin', 'arcsec':'arccos', 'arccot':'arctan'}
+        sinusInverse = {'csc':'sin', 'sec':'cos', 'cot': 'tan'}
+        arcInverse = {'arccsc':'arcsin', 'arcsec':'arccos', 'arccot':'arctan'}
         if self.nom in sinusInverse.keys():
             result = getattr(np, sinusInverse[self.nom])
             return 1/result(x)
+        elif self.nom in arcInverse.keys():
+            result = getattr(np, arcInverse[self.nom])
+            return result(1/x)
         else:
             result = getattr(np, self.nom)
             return result(x)
