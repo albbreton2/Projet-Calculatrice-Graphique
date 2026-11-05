@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 from clavier import Clavier
+from entry import Entry
 
 class MainApp(ctk.CTk):
     def __init__(self):
@@ -13,12 +14,7 @@ class MainApp(ctk.CTk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        ####### entry temporaire pour tester #######
-        frameEntry1 = ctk.CTkEntry(self, width=400)
-        frameEntry1.grid(row=0,column=0,sticky="nw")
-        self.entry = ctk.CTkEntry(frameEntry1)
-        self.entry.grid(row=0,column=0,sticky="new")
-        ############################################
+        self.afficheEntries()
 
         ##### graphique #####################################
         fig = Figure(figsize=(11,8))
@@ -48,40 +44,45 @@ class MainApp(ctk.CTk):
 
         self.afficheClavier()
 
+    def afficheEntries(self):
+        self.entries = Entry(master=self, width=400)
+        self.entries.grid(row=0,column=0,sticky="nw")
+
     def afficheClavier(self):        
         clavier = Clavier(master=self)
         clavier.grid(row=2, column=0, columnspan=2, sticky="sew")
 
-
     def changeEntry(self, symbole):
-        current = str(self.entry.get()) #prend ce qu'il y a déjà dans l'entry
-        pos = self.entry.index("insert") #prend la position courante du curseur
-        self.entry.delete(0, tk.END) #supprime l'entièreté des caractères de l'entry
+        if self.entries.entryCourant is not None:
+            current = str(self.entries.entryCourant.get()) #prend ce qu'il y a déjà dans l'entry
+            pos = self.entries.entryCourant.index("insert") #prend la position courante du curseur
+            self.entries.entryCourant.delete(0, tk.END) #supprime l'entièreté des caractères de l'entry
 
-        entryText = ""
-        if current == "": #si c'est le premier caractère ajouté
-            entryText += str(symbole)
-        elif pos == len(current): #si c'est le dernier caractère
-            entryText = current + str(symbole)
-        else:
-            for i in range (len(current)): #pour toutes les lettres de current,
-                if i == pos: #si la position de la lettre est la position du symbole à ajouter
-                    entryText += str(symbole) #ajoute le symbole à la chaine de caractères
-                    entryText += current[i]
-                else: #sinon
-                    entryText += current[i] #ajoute le reste de la chaine de caractères
-        self.entry.insert(0, entryText)
+            entryText = ""
+            if current == "": #si c'est le premier caractère ajouté
+                entryText += str(symbole)
+            elif pos == len(current): #si c'est le dernier caractère
+                entryText = current + str(symbole)
+            else:
+                for i in range (len(current)): #pour toutes les lettres de current,
+                    if i == pos: #si la position de la lettre est la position du symbole à ajouter
+                        entryText += str(symbole) #ajoute le symbole à la chaine de caractères
+                        entryText += current[i]
+                    else: #sinon
+                        entryText += current[i] #ajoute le reste de la chaine de caractères
+            self.entries.entryCourant.insert(0, entryText)
 
     def backspaceEntry(self):
-        current = str(self.entry.get()) #prend ce qu'il y a déjà dans l'entry
-        pos = self.entry.index("insert") #prend la position courante du curseur
-        self.entry.delete(0, tk.END) #supprime l'entièreté des caractères de l'entry
-
-        entryText = ""
-        for i in range (len(current)): #pour toutes les lettres de current,
-            if i != pos-1: #si la position de la lettre n'est la position de la lettre à effacer
-                entryText += current[i] #ajouter la lettre à la chaine de caractères
-        self.entry.insert(0, entryText) #insère le texte dans l'entry
+        if self.entries.entryCourant is not None:
+            current = str(self.entries.entryCourant.get()) #prend ce qu'il y a déjà dans l'entry
+            pos = self.entries.entryCourant.index("insert") #prend la position courante du curseur
+            self.entries.entryCourant.delete(0, tk.END) #supprime l'entièreté des caractères de l'entry
+        
+            entryText = ""
+            for i in range (len(current)): #pour toutes les lettres de current,
+                if i != pos-1: #si la position de la lettre n'est la position de la lettre à effacer
+                    entryText += current[i] #ajouter la lettre à la chaine de caractères
+            self.entries.entryCourant.insert(0, entryText) #insère le texte dans l'entry
 
     def on_closing(self):
         self.quit()
