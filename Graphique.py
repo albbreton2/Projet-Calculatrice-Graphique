@@ -1,4 +1,5 @@
 import math
+import numpy as np
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import customtkinter as ctk
@@ -7,16 +8,20 @@ import customtkinter as ctk
 class Graphique(ctk.CTkFrame):
     def __init__(self, master, avec_barre=True):
         super().__init__(master)
+
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+
         self.fig = Figure(figsize=(6, 5), dpi=100)
         self.ax = self.fig.add_subplot(111)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.barre = None
         if avec_barre:
             cadre_barre = ctk.CTkFrame(self)
-            cadre_barre.pack(side="bottom", fill="x")
+            cadre_barre.grid(row=1, column=0, sticky="ew")
             self.barre = NavigationToolbar2Tk(self.canvas, cadre_barre, pack_toolbar=False)
             self.barre.grid(row=0, column=0, sticky="w")
-        self.canvas.get_tk_widget().pack(fill="both", expand=True)
+        self.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
         self.fenetre = (-10, 10, -10, 10)
         self.artistes_geo = []   
         self.on_clic = None     

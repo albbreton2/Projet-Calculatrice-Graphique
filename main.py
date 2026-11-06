@@ -13,13 +13,13 @@ class MainApp(ctk.CTk):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
-        self.axe1 = np.linspace(-10, 10, 100)
+        self.axe1 = np.linspace(-10, 10, 500)
         self.axe2 = self.axe1 ** 2
 
         self.page = None
         self.create_menu()
         self.show_calculatrice()
-        self.protocol("WM_DELETE_WINDOW", self.on_closing)   # idée de ta camarade
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     def _afficher(self, page):
         if self.page is not None:
