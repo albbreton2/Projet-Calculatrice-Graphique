@@ -2,42 +2,51 @@ import customtkinter as ctk
 import tkinter as tk
 import numpy as np
 import matplotlib.pyplot as plt
+from MathConstante import MathConstante
+from MathConstante import MathFonction
+from clavierAccueil import ClavierAccueil
+from clavierLettres import ClavierLettres
+from clavierFonctions import ClavierFonctions
 
-#class Clavier():
-    #def __init__(self, master=None):
-    #super().__init__(master)
-    #self.master = master
-    #self.create_widgets()
 
-    #def create_widgets(self):
+class Clavier(ctk.CTkFrame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.grid_columnconfigure(2, weight=1)
+        self.create_widgets()
+        self.showClavierAccueil()
 
-#quand on clique sur la touche, ça print la touche (changera le label/entry éventuellement)
-def buttonClick(symbole):
-    print(symbole)
+    def showClavierAccueil(self):
+        self.clearClavierFrame()
+        self.clavierAccueil = ClavierAccueil(self)
+        self.clavierAccueil.grid(row=1, column=0, columnspan=20, sticky='s')
 
-#temporaire
-clavier = ctk.CTk()
-clavier.geometry('1280x300')
-clavier.grid_columnconfigure(0,weight=1)
+    def showClavierLettres(self):
+        self.clearClavierFrame()
+        self.clavierLettres = ClavierLettres(self)
+        self.clavierLettres.grid(row=1, column=0, columnspan=30, sticky='s')
 
-#Frame temporaire
-clavierFrame = ctk.CTkFrame(clavier, height=300, width=400)
-clavierFrame.grid(row=0, column=0, pady=(30,20))
+    def showClavierFonctions(self):
+        self.clearClavierFrame()
+        self.clavierFonctions = ClavierFonctions(self)
+        self.clavierFonctions.grid(row=1, column=0, columnspan=30, sticky='s')
+    '''    
+    def showClavierAutre(self):
+        self.clearClavierFrame()
+        self.clavierAutre = ClavierAutre(self)
+    '''
+    def clearClavierFrame(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+        self.create_widgets()
+        
+    def create_widgets(self):
+        boutonAccueil = ctk.CTkButton(self, text="123", command = self.showClavierAccueil, height=20, width=40)
+        boutonAccueil.grid(row=0, column=0, pady=(5,5), padx=(5,5), sticky="w")
 
-#bouton x
-xButton = ctk.CTkButton(clavierFrame, text="x", command=lambda: buttonClick("x"), height=20, width=80)
-xButton.grid(row=0, column=0, pady=(5,5), padx=(5,5))
+        boutonLettres = ctk.CTkButton(self, text="ABC", command = self.showClavierLettres, height=20, width=40)
+        boutonLettres.grid(row=0, column=1, pady=(5,5), padx=(5,5), sticky="w")
 
-#bouton y
-yButton = ctk.CTkButton(clavierFrame, text="y", command=lambda: buttonClick("y"), height=20, width=80)
-yButton.grid(row=0, column=1, pady=(5,5), padx=(5,5))
-
-#bouton pi
-piButton = ctk.CTkButton(clavierFrame, text="π", command=lambda: buttonClick("π"), height=20, width=80)
-piButton.grid(row=0, column=2, pady=(5,5), padx=(5,5))
-
-#bouton e
-eButton = ctk.CTkButton(clavierFrame, text="e", command=lambda: buttonClick("e"), height=20, width=80)
-eButton.grid(row=0, column=3, pady=(5,5), padx=(5,5))
-
-clavier.mainloop()
+        boutonFonctions = ctk.CTkButton(self, text="f(x)", command = self.showClavierFonctions, height=20, width=40)
+        boutonFonctions.grid(row=0, column=2, pady=(5,5), padx=(5,5), sticky="w")
