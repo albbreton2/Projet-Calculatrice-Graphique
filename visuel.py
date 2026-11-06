@@ -2,7 +2,7 @@ import customtkinter as ctk
 import tkinter as tk
 from Graphique import Graphique
 from clavier import Clavier
-
+from calcul_fonctions import tracer_graphique
 
 class Visuel(ctk.CTkFrame):
     def __init__(self,master):
@@ -28,6 +28,7 @@ class Visuel(ctk.CTkFrame):
         ctk.CTkButton(verticale, text="+", width=40, command = self.ajouter_ligne).pack(padx=5, pady=5)
         self.bouton_geo = ctk.CTkButton(verticale, text="△", width=40, command = self.mode_geometrie)
         self.bouton_geo.pack(padx=5, pady=5)
+        ctk.CTkButton(verticale, text="Enter", width=40, command=self.afficher_fonctions).pack(padx=5, pady=5)
         self.couleur_bouton = self.bouton_geo.cget("fg_color")
         ctk.CTkButton(verticale, text="✖", width=40, command = self.effacer_geometrie).pack(padx=5, pady=5)
 
@@ -57,6 +58,7 @@ class Visuel(ctk.CTkFrame):
         entree = ctk.CTkEntry(self.liste, placeholder_text="ex : sin(x)")
         entree.pack(fill="x", padx=5, pady=3)
         entree.bind("<FocusIn>", lambda e, en=entree: setattr(self, "entree_active", en))
+        entree.bind("<Return>", lambda e: self.afficher_fonctions())
         self.lignes.append(entree)
         self.entree_active = entree
 
@@ -106,4 +108,22 @@ class Visuel(ctk.CTkFrame):
         self.points = []
         self.selection = []
         self.segments = []
+        self.redessiner_geometrie()
+
+    def afficher_fonctions(self):
+        fonctions = []
+
+        for entree in self.lignes:
+            fonction = entree.get().strip()
+
+            if fonction:
+                fonctions.append(fonction)
+
+        resultats = tracer_graphique(fonctions)
+
+        self.graphique.effacer()
+
+        for x, y in resultats:
+            self.graphique.tracer(x, y)
+
         self.redessiner_geometrie()
