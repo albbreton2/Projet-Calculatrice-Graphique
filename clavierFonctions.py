@@ -7,11 +7,11 @@ from MathConstante import MathConstante
 from MathConstante import MathFonction
 
 class ClavierFonctions(ctk.CTkFrame):
-    def __init__(self, master=None):
-            super().__init__(master)
-            self.master = master #Clavier
-            self.mainApp = master.master #MainApp
-            self.create_widgets()
+    def __init__(self, master=None, on_key=None):
+        super().__init__(master)
+        self.master = master #Clavier
+        self.on_key = on_key #fonction fournie par la page
+        self.create_widgets()
 
     def create_widgets(self):
         listeFonctions = [
@@ -29,10 +29,7 @@ class ClavierFonctions(ctk.CTkFrame):
             ]
         boutonsFonctions = []
         for symbole in listeFonctions:
-            if type(symbole) == '__main__.MathFonction' or type(symbole) == '__main__.MathConstante':
-                boutonsFonctions.append(ctk.CTkButton(self, text=symbole.__str__(), command=lambda btn=symbole: buttonClick(btn, self.mainApp), height=20, width=80))
-            else:
-                boutonsFonctions.append(ctk.CTkButton(self, text=symbole, command=lambda btn=symbole: buttonClick(btn, self.mainApp), height=20, width=80))
+            boutonsFonctions.append(ctk.CTkButton(self, text=str(symbole), command=lambda btn=symbole: buttonClick(btn, self.on_key), height=20, width=80))
 
         count, padx3 = 0, 5
         for i in range(4):

@@ -6,10 +6,10 @@ from MathConstante import MathConstante
 from MathConstante import MathFonction
 
 class ClavierAccueil(ctk.CTkFrame):
-    def __init__(self, master=None):
+    def __init__(self, master=None, on_key=None):
         super().__init__(master)
         self.master = master #Clavier
-        self.mainApp = master.master #MainApp
+        self.on_key = on_key #fonction fournie par la page
         self.create_widgets()
 
     def create_widgets(self):
@@ -20,10 +20,7 @@ class ClavierAccueil(ctk.CTkFrame):
         listeBoutons1 = []
 
         for symbole in listeOperateurs:
-            if type(symbole) == '__main__.MathFonction' or type(symbole) == '__main__.MathConstante':
-                listeBoutons1.append(ctk.CTkButton(self, text=symbole.__str__(), command=lambda btn=symbole: buttonClick(btn, self.mainApp), height=20, width=80))
-            else:
-                listeBoutons1.append(ctk.CTkButton(self, text=symbole, command=lambda btn=symbole: buttonClick(btn, self.mainApp), height=20, width=80))
+            listeBoutons1.append(ctk.CTkButton(self, text=str(symbole), command=lambda btn=symbole: buttonClick(btn, self.on_key), height=20, width=80))
 
         count, padx3 = 0, 5
         for i in range(4):
@@ -35,12 +32,12 @@ class ClavierAccueil(ctk.CTkFrame):
                 if count<len(listeOperateurs):
                     listeBoutons1[count].grid(row=i, column=j, pady=(5,5), padx=(padx3,5))
                     count += 1
-        
+
         chiffres = [7,8,9,'÷',4,5,6,'×',1,2,3,'-',0,'.','=','+']
         chiffresBoutons = []
 
         for chiffre in chiffres:
-            chiffresBoutons.append(ctk.CTkButton(self, text=str(chiffre), command=lambda btn=chiffre: buttonClick(btn, self.mainApp), height=20, width=80))
+            chiffresBoutons.append(ctk.CTkButton(self, text=str(chiffre), command=lambda btn=chiffre: buttonClick(btn, self.on_key), height=20, width=80))
 
         count, padx4 = 0, 5
         for i in range(4):
@@ -53,6 +50,6 @@ class ClavierAccueil(ctk.CTkFrame):
                     chiffresBoutons[count].grid(row=i, column=j, pady=(5,5), padx=(padx4,5))
                     count += 1
 
-#quand on clique sur la touche, ça print la touche (changera le label/entry éventuellement)
-def buttonClick(symbole, mainApp):
-    mainApp.changeEntry(symbole)
+#quand on clique sur la touche, ça envoie la touche à la page (on_key)
+def buttonClick(symbole, on_key):
+    on_key(str(symbole))
